@@ -1,16 +1,107 @@
 Changelog
 =========
 
-0.39.0 (2021-03-18)
+0.42.1 (2023-05-18)
 -------------------
 ------------
 
 Fix
 ~~~
 - Fix missing INFO logs. [Gallo Feliz]
+- Always clone with OAuth token when provided. [Samantha Baldwin]
+
+  Github Enterprise servers with 'Anonymous Git read access' disabled
+  cause `git ls-remote` to fail (128) for a repo's `clone_url`. Using the
+  OAuth token when provided allows cloning private AND public repos when
+  Anonymous Git read access is disabled.
+- Use distutils.core on error. [Jose Diaz-Gonzalez]
+- Use twine for releases. [Jose Diaz-Gonzalez]
+
+  The old method of releasing to pypi broke for whatever reason and switching to a supported toolchain is easier than debugging the old one.
+
+  Additionally:
+
+  - Update gitchangelog
+  - Fix license entry
+  - Set long description type
+  - Gitignore the temporary readme file
+- Warn instead of error. [Jose Diaz-Gonzalez]
+
+  Refs #106
+- Cleanup pep8 violations. [Jose Diaz-Gonzalez]
+- Properly import version from github_backup package. [Jose Diaz-
+  Gonzalez]
+- Support alternate git status output. [Jose Diaz-Gonzalez]
 
 Other
 ~~~~~
+- M. [Nour Sofanati]
+- M. [Nour Sofanati]
+- Release version 0.42.0. [Jose Diaz-Gonzalez]
+- Merge pull request #204 from Assimila/exclude_repositories.
+  [josegonzalez]
+
+  Add option to exclude repositories
+- Add option to exclude repositories. [npounder]
+- Merge pull request #202 from TheOneric/pull_backup-regular-comments.
+  [josegonzalez]
+
+  Backup regular pull request comments as well
+- Backup regular pull request comments as well. [Oneric]
+
+  Before, only review comments were backed up;
+  regular comments need to be fetched via issue API.
+- Merge pull request #201 from TRAdEWORKS/fix-bug-request-url-error-
+  forever-retry. [josegonzalez]
+
+  Fix a bug forever retry when request url error
+- Fix bug forever retry when request url error. [kornpisey]
+- Merge pull request #200 from TRAdEWORKS/no-prune-flag. [josegonzalez]
+
+  Add --no-prune command line argument to disable prune option when doing git fetch
+- Added --no-prune option to disable prune option when doing git fetch.
+  [kornpisey]
+- Release version 0.41.0. [Jose Diaz-Gonzalez]
+- Merge pull request #191 from SkySoft-ATM/bug/lfs_mirror. [Jose Diaz-
+  Gonzalez]
+
+  git lfs clone does not respect --mirror
+- Git lfs clone doe snot respect --mirror. [Louis Parisot]
+- Release version 0.40.2. [Jose Diaz-Gonzalez]
+- Merge pull request #186 from atinary-afoulon/patch-1. [Jose Diaz-
+  Gonzalez]
+
+  Fix lint issues raised by Flake8
+- Fix lint issues raised by Flake8. [atinary-afoulon]
+
+  According to job:
+  [ https://app.circleci.com/pipelines/github/josegonzalez/python-github-backup/30/workflows/74eb93f2-2505-435d-b728-03b3cc04c14a/jobs/23 ]
+
+  Failed on the following checks:
+  ./github_backup/github_backup.py:20:1: F811 redefinition of unused 'logging' from line 14
+  ./github_backup/github_backup.py:45:1: E302 expected 2 blank lines, found 1
+  ./github_backup/github_backup.py:136:20: E251 unexpected spaces around keyword / parameter equals
+- Release version 0.40.1. [Jose Diaz-Gonzalez]
+- Merge pull request #180 from whwright/revert-to-fetch. [Jose Diaz-
+  Gonzalez]
+
+  Revert to fetch
+- Revert to fetch. [Harrison Wright]
+- Release version 0.40.0. [Jose Diaz-Gonzalez]
+- Merge pull request #177 from jacekn/retry. [Jose Diaz-Gonzalez]
+
+  Add retry on certain network errors
+- Add retry on certain network errors. [Jacek Nykis]
+
+  This change includes certain network level errors in the retry logic.
+  It partially address #110 but I think more comprehensive fix would be useful.
+- Merge pull request #178 from pew/patch-1. [Jose Diaz-Gonzalez]
+
+  pull changes from remote
+- Pull changes from remote. [Jonas]
+
+  use `git pull` to pull actual files from the remote instead of using `fetch` for only the metadata
+- Release version 0.39.0. [Jose Diaz-Gonzalez]
 - Merge pull request #173 from gallofeliz/make-compatible-python-call.
   [Jose Diaz-Gonzalez]
 
@@ -22,22 +113,6 @@ Other
 
   Fixed release_name with slash bug
 - Fixed release_name with slash bug. [Álvaro Torres Cogollo]
-
-
-0.38.0 (2021-02-13)
--------------------
-
-Fix
-~~~
-- Always clone with OAuth token when provided. [Samantha Baldwin]
-
-  Github Enterprise servers with 'Anonymous Git read access' disabled
-  cause `git ls-remote` to fail (128) for a repo's `clone_url`. Using the
-  OAuth token when provided allows cloning private AND public repos when
-  Anonymous Git read access is disabled.
-
-Other
-~~~~~
 - Release version 0.38.0. [Jose Diaz-Gonzalez]
 - Merge pull request #172 from samanthaq/always-use-oauth-when-provided.
   [Jose Diaz-Gonzalez]
@@ -49,43 +124,8 @@ Other
   Fix broken and incorrect link to github repository
 - Change broken link to a fork to a working link to upstream. [Rick van
   Schijndel]
-
-
-0.37.2 (2021-01-02)
--------------------
-
-Fix
-~~~
-- Use distutils.core on error. [Jose Diaz-Gonzalez]
-
-Other
-~~~~~
 - Release version 0.37.2. [Jose Diaz-Gonzalez]
-
-
-0.37.1 (2021-01-02)
--------------------
-
-Fix
-~~~
-- Use twine for releases. [Jose Diaz-Gonzalez]
-
-  The old method of releasing to pypi broke for whatever reason and switching to a supported toolchain is easier than debugging the old one.
-
-  Additionally:
-
-  - Update gitchangelog
-  - Fix license entry
-  - Set long description type
-  - Gitignore the temporary readme file
-
-Other
-~~~~~
 - Release version 0.37.1. [Jose Diaz-Gonzalez]
-
-
-0.37.0 (2021-01-02)
--------------------
 - Release version 0.37.0. [Jose Diaz-Gonzalez]
 - Merge pull request #158 from albertyw/python3. [Jose Diaz-Gonzalez]
 
@@ -100,10 +140,6 @@ Other
 
   Add option to skip archived repositories
 - Add ability to skip archived repositories. [Gary Moon]
-
-
-0.36.0 (2020-08-29)
--------------------
 - Release version 0.36.0. [Jose Diaz-Gonzalez]
 - Merge pull request #157 from albertyw/lint. [Jose Diaz-Gonzalez]
 - Add flake8 instructions to readme. [Albert Wang]
@@ -124,37 +160,21 @@ Other
   By default, private repositories are not included. This is surprising.
   It took me a while to figure this out, and making that clear in the
   example can help others to be aware of that.
-
-
-0.35.0 (2020-08-05)
--------------------
 - Release version 0.35.0. [Jose Diaz-Gonzalez]
 - Merge pull request #156 from samanthaq/restore-optional-throttling.
   [Jose Diaz-Gonzalez]
 
   Make API request throttling optional
 - Make API request throttling optional. [Samantha Baldwin]
-
-
-0.34.0 (2020-07-24)
--------------------
 - Release version 0.34.0. [Jose Diaz-Gonzalez]
 - Merge pull request #153 from 0x6d617474/gist_ssh. [Jose Diaz-Gonzalez]
 
   Add logic for transforming gist repository urls to ssh
 - Add logic for transforming gist repository urls to ssh. [Matt Fields]
-
-
-0.33.1 (2020-05-28)
--------------------
 - Release version 0.33.1. [Jose Diaz-Gonzalez]
 - Merge pull request #151 from garymoon/readme-update-0.33. [Jose Diaz-
   Gonzalez]
 - Update the readme for new switches added in 0.33. [Gary Moon]
-
-
-0.33.0 (2020-04-13)
--------------------
 - Release version 0.33.0. [Jose Diaz-Gonzalez]
 - Merge pull request #149 from eht16/simple_api_request_throttling.
   [Jose Diaz-Gonzalez]
@@ -167,10 +187,6 @@ Other
   when throttling should start.
   "--throttle-pause" defines the time to sleep between further API
   requests.
-
-
-0.32.0 (2020-04-13)
--------------------
 - Release version 0.32.0. [Jose Diaz-Gonzalez]
 - Merge pull request #148 from eht16/logging_with_timestamp. [Jose Diaz-
   Gonzalez]
@@ -182,35 +198,19 @@ Other
 
   Update README.rst to match 'github-backup -h'
 - Update README.rst to match 'github-backup -h' [Tom Hoover]
-
-
-0.31.0 (2020-02-25)
--------------------
 - Release version 0.31.0. [Jose Diaz-Gonzalez]
 - Merge pull request #146 from timm3/upstream-123. [Jose Diaz-Gonzalez]
 
   Authenticate as Github App
 - #123 update: changed --as-app 'help' description. [ethan]
 - #123: Support Authenticating As Github Application. [ethan]
-
-
-0.30.0 (2020-02-14)
--------------------
 - Release version 0.30.0. [Jose Diaz-Gonzalez]
-
-
-0.29.0 (2020-02-14)
--------------------
 - Release version 0.29.0. [Jose Diaz-Gonzalez]
 - Merge pull request #145 from timm3/50-v0.28.0. [Jose Diaz-Gonzalez]
 
   #50 - refactor for friendlier import
 - #50 update: keep main() in bin. [ethan]
 - #50 - refactor for friendlier import. [ethan]
-
-
-0.28.0 (2020-02-03)
--------------------
 - Release version 0.28.0. [Jose Diaz-Gonzalez]
 - Merge pull request #143 from smiley/patch-1. [Jose Diaz-Gonzalez]
 
@@ -218,10 +218,6 @@ Other
 - Remove deprecated (and removed) git lfs flags. [smiley]
 
   "--tags" and "--force" were removed at some point from "git lfs fetch". This broke our backup script.
-
-
-0.27.0 (2020-01-22)
--------------------
 - Release version 0.27.0. [Jose Diaz-Gonzalez]
 - Merge pull request #142 from einsteinx2/issue/141-import-error-
   version. [Jose Diaz-Gonzalez]
@@ -284,10 +280,6 @@ Other
 
   Ignores the annoying hidden macOS files .DS_Store and ._* as well as the IDE configuration folders for contributors using the popular Visual Studio Code and Atom IDEs (more can be added later as needed).
 - Update ISSUE_TEMPLATE.md. [Jose Diaz-Gonzalez]
-
-
-0.26.0 (2019-09-23)
--------------------
 - Release version 0.26.0. [Jose Diaz-Gonzalez]
 - Merge pull request #128 from Snawoot/master. [Jose Diaz-Gonzalez]
 
@@ -297,10 +289,6 @@ Other
 - Create ISSUE_TEMPLATE.md. [Jose Diaz-Gonzalez]
 - Update README.rst. [Jose Diaz-Gonzalez]
 - Update README.rst. [Jose Diaz-Gonzalez]
-
-
-0.25.0 (2019-07-03)
--------------------
 - Release version 0.25.0. [Jose Diaz-Gonzalez]
 - Merge pull request #120 from 8h2a/patch-1. [Jose Diaz-Gonzalez]
 
@@ -308,10 +296,6 @@ Other
 - Issue 119: Change retrieve_data to be a generator. [2a]
 
   See issue #119.
-
-
-0.24.0 (2019-06-27)
--------------------
 - Release version 0.24.0. [Jose Diaz-Gonzalez]
 - Merge pull request #117 from QuicketSolutions/master. [Jose Diaz-
   Gonzalez]
@@ -341,10 +325,6 @@ Other
 
   Fix pull details
 - Fix pull details. [Harrison Wright]
-
-
-0.23.0 (2019-06-04)
--------------------
 - Release version 0.23.0. [Jose Diaz-Gonzalez]
 - Merge pull request #113 from kleag/master. [Jose Diaz-Gonzalez]
 
@@ -354,38 +334,17 @@ Other
   Survive also on socket.error connections like on HTTPError or URLError.
 
   This should solve issue #110.
-
-
-0.22.2 (2019-02-21)
--------------------
-
-Fix
-~~~
-- Warn instead of error. [Jose Diaz-Gonzalez]
-
-  Refs #106
-
-Other
-~~~~~
 - Release version 0.22.2. [Jose Diaz-Gonzalez]
 - Merge pull request #107 from josegonzalez/patch-1. [Jose Diaz-
   Gonzalez]
 
   fix: warn instead of error
-
-
-0.22.1 (2019-02-21)
--------------------
 - Release version 0.22.1. [Jose Diaz-Gonzalez]
 - Merge pull request #106 from jstetic/master. [Jose Diaz-Gonzalez]
 
   Log URL error
 - Log URL error https://github.com/josegonzalez/python-github-
   backup/issues/105. [JOHN STETIC]
-
-
-0.22.0 (2019-02-01)
--------------------
 - Release version 0.22.0. [Jose Diaz-Gonzalez]
 - Merge pull request #103 from whwright/98-better-logging. [Jose Diaz-
   Gonzalez]
@@ -395,10 +354,6 @@ Other
 - Add org check to avoid incorrect log output. [W. Harrison Wright]
 - Fix accidental system exit with better logging strategy. [W. Harrison
   Wright]
-
-
-0.21.1 (2018-12-25)
--------------------
 - Release version 0.21.1. [Jose Diaz-Gonzalez]
 - Merge pull request #101 from ecki/patch-2. [Jose Diaz-Gonzalez]
 
@@ -406,10 +361,6 @@ Other
 - Mark options which are not included in --all. [Bernd]
 
   As discussed in Issue #100
-
-
-0.21.0 (2018-11-28)
--------------------
 - Release version 0.21.0. [Jose Diaz-Gonzalez]
 - Merge pull request #97 from whwright/94-fix-user-repos. [Jose Diaz-
   Gonzalez]
@@ -417,10 +368,6 @@ Other
   Correctly download repos when user arg != authenticated user
 - Correctly download repos when user arg != authenticated user. [W.
   Harrison Wright]
-
-
-0.20.1 (2018-09-29)
--------------------
 - Release version 0.20.1. [Jose Diaz-Gonzalez]
 - Merge pull request #92 from whwright/87-fix-starred-bug. [Jose Diaz-
   Gonzalez]
@@ -430,34 +377,11 @@ Other
   Harrison Wright]
 - Clone the specified user's starred repos, not the authenticated user.
   [W. Harrison Wright]
-
-
-0.20.0 (2018-03-24)
--------------------
 - Release version 0.20.0. [Jose Diaz-Gonzalez]
 - Chore: drop Python 2.6. [Jose Diaz-Gonzalez]
 - Feat: simplify release script. [Jose Diaz-Gonzalez]
-
-
-0.19.2 (2018-03-24)
--------------------
-
-Fix
-~~~
-- Cleanup pep8 violations. [Jose Diaz-Gonzalez]
-
-Other
-~~~~~
 - Release version 0.19.2. [Jose Diaz-Gonzalez]
-
-
-0.19.1 (2018-03-24)
--------------------
 - Release version 0.19.1. [Jose Diaz-Gonzalez]
-
-
-0.19.0 (2018-03-24)
--------------------
 - Release version 0.19.0. [Jose Diaz-Gonzalez]
 - Merge pull request #77 from mayflower/pull-details. [Jose Diaz-
   Gonzalez]
@@ -479,20 +403,12 @@ Other
   Found out that the flag "--skip-existing" did not work out as expected on Python
   3.6. Tracked it down to the comparison which has to be against a string of bytes
   in Python3.
-
-
-0.18.0 (2018-02-22)
--------------------
 - Release version 0.18.0. [Jose Diaz-Gonzalez]
 - Merge pull request #82 from sgreene570/add-followers. [Jose Diaz-
   Gonzalez]
 
   Add option to fetch followers/following JSON data
 - Add option to fetch followers/following JSON data. [Stephen Greene]
-
-
-0.17.0 (2018-02-20)
--------------------
 - Release version 0.17.0. [Jose Diaz-Gonzalez]
 - Merge pull request #81 from whwright/gists. [Jose Diaz-Gonzalez]
 
@@ -500,10 +416,6 @@ Other
 - Short circuit gists backup process. [W. Harrison Wright]
 - Formatting. [W. Harrison Wright]
 - Add ability to backup gists. [W. Harrison Wright]
-
-
-0.16.0 (2018-01-22)
--------------------
 - Release version 0.16.0. [Jose Diaz-Gonzalez]
 - Merge pull request #78 from whwright/clone-starred-repos. [Jose Diaz-
   Gonzalez]
@@ -518,10 +430,6 @@ Other
   Wright]
 - Add comment. [W. Harrison Wright]
 - Add ability to clone starred repos. [W. Harrison Wright]
-
-
-0.15.0 (2017-12-11)
--------------------
 - Release version 0.15.0. [Jose Diaz-Gonzalez]
 - Merge pull request #75 from slibby/slibby-patch-windows. [Jose Diaz-
   Gonzalez]
@@ -532,19 +440,11 @@ Other
   1. added newline for return
   2. added one-time warning (once per subprocess)
 - Update check_io() to allow scripts to run on Windows. [Sam Libby]
-
-
-0.14.1 (2017-10-11)
--------------------
 - Release version 0.14.1. [Jose Diaz-Gonzalez]
 - Merge pull request #70 from epfremmer/patch-1. [Jose Diaz-Gonzalez]
 
   Fix arg not defined error
 - Fix arg not defined error. [Edward Pfremmer]
-
-
-0.14.0 (2017-10-11)
--------------------
 - Release version 0.14.0. [Jose Diaz-Gonzalez]
 - Merge pull request #68 from pieterclaerhout/master. [Jose Diaz-
   Gonzalez]
@@ -563,30 +463,18 @@ Other
 
   add couple examples to help new users
 - Add couple examples to help new users. [Yusuf Tran]
-
-
-0.13.2 (2017-05-06)
--------------------
 - Release version 0.13.2. [Jose Diaz-Gonzalez]
 - Merge pull request #64 from karlicoss/fix-remotes. [Jose Diaz-
   Gonzalez]
 
   Fix remotes while updating repository
 - Fix remotes while updating repository. [Dima Gerasimov]
-
-
-0.13.1 (2017-04-11)
--------------------
 - Release version 0.13.1. [Jose Diaz-Gonzalez]
 - Merge pull request #61 from McNetic/fix_empty_updated_at. [Jose Diaz-
   Gonzalez]
 
   Fix error when repository has no updated_at value
 - Fix error when repository has no updated_at value. [Nicolai Ehemann]
-
-
-0.13.0 (2017-04-05)
--------------------
 - Release version 0.13.0. [Jose Diaz-Gonzalez]
 - Merge pull request #59 from martintoreilly/master. [Jose Diaz-
   Gonzalez]
@@ -605,10 +493,6 @@ Other
   Added additional optional arguments and README guidance for storing
   and accessing a Github personal access token (PAT) in the OSX
   keychain
-
-
-0.12.1 (2017-03-27)
--------------------
 - Release version 0.12.1. [Jose Diaz-Gonzalez]
 - Merge pull request #57 from acdha/reuse-existing-remotes. [Jose Diaz-
   Gonzalez]
@@ -623,19 +507,6 @@ Other
 
   Fix detection of bare git directories
 - Fix detection of bare git directories. [Andrzej Maczuga]
-
-
-0.12.0 (2016-11-22)
--------------------
-
-Fix
-~~~
-- Properly import version from github_backup package. [Jose Diaz-
-  Gonzalez]
-- Support alternate git status output. [Jose Diaz-Gonzalez]
-
-Other
-~~~~~
 - Release version 0.12.0. [Jose Diaz-Gonzalez]
 - Pep8: E501 line too long (83 > 79 characters) [Jose Diaz-Gonzalez]
 - Pep8: E128 continuation line under-indented for visual indent. [Jose
@@ -648,10 +519,6 @@ Other
 
   fix typo, 3x
 - Fix typo, 3x. [Terrell Russell]
-
-
-0.11.0 (2016-10-26)
--------------------
 - Release version 0.11.0. [Jose Diaz-Gonzalez]
 - Merge pull request #52 from bjodah/fix-gh-51. [Jose Diaz-Gonzalez]
 
@@ -682,10 +549,6 @@ Other
 - Don't install over insecure connection. [Remi Rampin]
 
   The git:// protocol is unauthenticated and unencrypted, and no longer advertised by GitHub. Using HTTPS shouldn't impact performance.
-
-
-0.10.3 (2016-08-21)
--------------------
 - Release version 0.10.3. [Jose Diaz-Gonzalez]
 - Merge pull request #30 from jonasrmichel/master. [Jose Diaz-Gonzalez]
 
@@ -703,23 +566,11 @@ Other
   from a rate limit sleep. When the backup was resumed, the non-empty
   errors list caused the backup to quit after the next `retrieve_data`
   request.
-
-
-0.10.2 (2016-08-21)
--------------------
 - Release version 0.10.2. [Jose Diaz-Gonzalez]
 - Add a note regarding git version requirement. [Jose Diaz-Gonzalez]
 
   Closes #37
-
-
-0.10.1 (2016-08-21)
--------------------
 - Release version 0.10.1. [Jose Diaz-Gonzalez]
-
-
-0.10.0 (2016-08-18)
--------------------
 - Release version 0.10.0. [Jose Diaz-Gonzalez]
 - Merge pull request #42 from robertwb/master. [Jose Diaz-Gonzalez]
 
@@ -732,20 +583,12 @@ Other
   pull request data since this time.  All other data is relatively
   small (likely fetched with a single request) and so is simply
   re-populated from scratch as before.
-
-
-0.9.0 (2016-03-29)
-------------------
 - Release version 0.9.0. [Jose Diaz-Gonzalez]
 - Merge pull request #36 from zlabjp/fix-cloning-private-repos. [Jose
   Diaz-Gonzalez]
 
   Fix cloning private repos with basic auth or token
 - Fix cloning private repos with basic auth or token. [Kazuki Suda]
-
-
-0.8.0 (2016-02-14)
-------------------
 - Release version 0.8.0. [Jose Diaz-Gonzalez]
 - Merge pull request #35 from eht16/issue23_store_pullrequests_once.
   [Jose Diaz-Gonzalez]
@@ -757,10 +600,6 @@ Other
   pull requests also as issues. Those issues will be skipped but only if
   retrieving pull requests is requested as well.
   Closes #23.
-
-
-0.7.0 (2016-02-02)
-------------------
 - Release version 0.7.0. [Jose Diaz-Gonzalez]
 - Merge pull request #32 from albertyw/soft-fail-hooks. [Jose Diaz-
   Gonzalez]
@@ -783,10 +622,6 @@ Other
   Prompt for password if only username given
 - Update README with new CLI usage. [Alex Hall]
 - Prompt for password if only username given. [Alex Hall]
-
-
-0.6.0 (2015-11-10)
-------------------
 - Release version 0.6.0. [Jose Diaz-Gonzalez]
 - Force proper remote url. [Jose Diaz-Gonzalez]
 - Merge pull request #24 from eht16/add_backup_hooks. [Jose Diaz-
@@ -826,10 +661,6 @@ Other
   This makes it easier for the user to identify which repository does not
   exist or is not initialised, i.e. whether it is the main repository or
   the wiki repository and which clone URL was used to check.
-
-
-0.5.0 (2015-10-10)
-------------------
 - Release version 0.5.0. [Jose Diaz-Gonzalez]
 - Add release script. [Jose Diaz-Gonzalez]
 - Refactor to both simplify codepath as well as follow PEP8 standards.
@@ -940,10 +771,6 @@ Other
   Pass the -H or --github-host argument with a GitHub Enterprise hostname
   to backup from that GitHub enterprise host. If no argument is passed
   then back up from github.com.
-
-
-0.2.0 (2014-09-22)
-------------------
 - Release 0.2.0. [Jose Diaz-Gonzalez]
 - Add support for retrieving repositories. Closes #1. [Jose Diaz-
   Gonzalez]
