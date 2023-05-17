@@ -1,9 +1,9 @@
 Changelog
 =========
 
-0.42.1 (2023-05-18)
+0.42.2 (2023-05-18)
 -------------------
-------------
+-------------------
 
 Fix
 ~~~
@@ -35,6 +35,7 @@ Fix
 
 Other
 ~~~~~
+- Release version 0.42.1. [Nour Sofanati]
 - M. [Nour Sofanati]
 - M. [Nour Sofanati]
 - Release version 0.42.0. [Jose Diaz-Gonzalez]
