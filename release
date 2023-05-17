@@ -19,20 +19,20 @@ MAGENTA="\033[0;35m"  # magenta
 CYAN="\033[0;36m"     # cyan
 
 # ensure wheel is available
-pip install wheel > /dev/null
+pip3 install wheel > /dev/null
 
 command -v gitchangelog >/dev/null 2>&1 || {
-    echo -e "${RED}WARNING: Missing gitchangelog binary, please run: pip install gitchangelog==3.0.4${COLOR_OFF}\n"
+    echo -e "${RED}WARNING: Missing gitchangelog binary, please run: pip3 install gitchangelog==3.0.4${COLOR_OFF}\n"
     exit 1
 }
 
 command -v rst-lint > /dev/null || {
-    echo -e "${RED}WARNING: Missing rst-lint binary, please run: pip install restructuredtext_lint${COLOR_OFF}\n"
+    echo -e "${RED}WARNING: Missing rst-lint binary, please run: pip3 install restructuredtext_lint${COLOR_OFF}\n"
     exit 1
 }
 
 command -v twine > /dev/null || {
-    echo -e "${RED}WARNING: Missing twine binary, please run: pip install twine==3.2.0${COLOR_OFF}\n"
+    echo -e "${RED}WARNING: Missing twine binary, please run: pip3 install twine==3.2.0${COLOR_OFF}\n"
     exit 1
 }
 
