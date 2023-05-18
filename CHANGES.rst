@@ -1,8 +1,18 @@
 Changelog
 =========
 
+2.0.2 (2023-05-18)
+------------------
+------------
+- Rename. [Nour Sofanati]
+
+
 2.0.1 (2023-05-18)
 ------------------
+- Release version 2.0.1. [Nour Sofanati]
+
+
+2.0.0 (2023-05-18)
 ------------------
 - Release version 2.0.0. [Nour Sofanati]
 
