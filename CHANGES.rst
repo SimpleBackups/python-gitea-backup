@@ -1,9 +1,15 @@
 Changelog
 =========
 
-2.0.2 (2023-05-18)
+2.0.3 (2023-05-18)
 ------------------
 ------------
+- SSL Certificate. [Nour Sofanati]
+
+
+2.0.2 (2023-05-18)
+------------------
+- Release version 2.0.2. [Nour Sofanati]
 - Rename. [Nour Sofanati]
 
 
