@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import os
-from github_backup import __version__
+from gitea_backup import __version__
 
 try:
     from setuptools import setup
@@ -25,13 +25,13 @@ def open_file(fname):
 
 
 setup(
-    name='github-backup',
+    name='gitea-backup',
     version=__version__,
-    author='Jose Diaz-Gonzalez',
-    author_email='github-backup@josediazgonzalez.com',
-    packages=['github_backup'],
-    scripts=['bin/github-backup'],
-    url='http://github.com/josegonzalez/python-github-backup',
+    author='Nour Sofanati',
+    author_email='nour@simplebackups.com',
+    packages=['gitea_backup'],
+    scripts=['bin/gitea-backup'],
+    url='http://github.com/noursofanati/python-gitea-backup',
     license='MIT',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
@@ -42,9 +42,10 @@ setup(
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
     ],
-    description='backup a github user or organization',
+    description='backup a gitea user or organization',
     long_description=open_file('README.rst').read(),
     long_description_content_type='text/x-rst',
     install_requires=open_file('requirements.txt').readlines(),
     zip_safe=True,
+    
 )
