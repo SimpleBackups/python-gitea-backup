@@ -2,7 +2,7 @@
 
 import os, sys, logging
 
-from github_backup.github_backup import (
+from gitea_backup.gitea_backup import (
     backup_account,
     backup_repositories,
     check_git_lfs_install,
