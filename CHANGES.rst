@@ -1,8 +1,13 @@
 Changelog
 =========
 
-2.0.0 (2023-05-18)
+2.0.1 (2023-05-18)
 ------------------
+------------------
+- Release version 2.0.0. [Nour Sofanati]
+
+
+1.0.0 (2023-05-18)
 ------------------
 - Release version 1.0.0. [Nour Sofanati]
 - Test script. [Nour Sofanati]
