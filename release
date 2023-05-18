@@ -130,7 +130,7 @@ git push -q origin master && git push -q --tags
 if [[ "$PUBLIC" == "true" ]]; then
     echo -e "${YELLOW}--->${COLOR_OFF} Creating python release"
     cp README.rst README
-    python setup.py sdist bdist_wheel > /dev/null
+    python3 setup.py sdist bdist_wheel > /dev/null
     twine upload dist/*
     rm README
 fi
