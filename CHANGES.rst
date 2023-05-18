@@ -1,9 +1,17 @@
 Changelog
 =========
 
+1.0.0 (2023-05-18)
+------------------
+------------
+- Test script. [Nour Sofanati]
+- Directory name change. [Nour Sofanati]
+- Gitea hotfix. [Nour Sofanati]
+
+
 0.42.6 (2023-05-18)
 -------------------
-------------
+- Release version 0.42.6. [Nour Sofanati]
 - M. [Nour Sofanati]
 
 
