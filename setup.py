@@ -27,11 +27,11 @@ def open_file(fname):
 setup(
     name='gitea-backup',
     version=__version__,
-    author='Nour Sofanati',
-    author_email='nour@simplebackups.com',
+    author='simplebackups',
+    author_email='simplebackups.io@gmail.com',
     packages=['gitea_backup'],
     scripts=['bin/gitea-backup'],
-    url='http://github.com/noursofanati/python-gitea-backup',
+    url='http://github.com/simplebackups/python-gitea-backup',
     license='MIT',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
