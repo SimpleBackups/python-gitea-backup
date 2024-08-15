@@ -1,8 +1,24 @@
 Changelog
 =========
 
+2.2.0 (2024-08-15)
+------------------
+------------------
+- Handle http redirection. [Nour Sofanati]
+
+
+2.1.1 (2024-08-15)
+------------------
+- Release version 2.1.1. [Nour Sofanati]
+- Change author and email. [sb-nour]
+
+
 2.1.0 (2023-05-18)
 ------------------
+- Release version 2.1.0. [Nour Sofanati]
+
+
+2.0.3 (2023-05-18)
 ------------------
 - Release version 2.0.3. [Nour Sofanati]
 - SSL Certificate. [Nour Sofanati]
