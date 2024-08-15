@@ -1,9 +1,16 @@
 Changelog
 =========
 
+2.3.0 (2024-08-15)
+------------------
+------------
+- Release version 2.2.0. [Nour Sofanati]
+
+
 2.2.0 (2024-08-15)
 ------------------
-------------------
+- Release version 2.2.0. [Nour Sofanati]
+- Release version 2.1.1. [Nour Sofanati]
 - Handle http redirection. [Nour Sofanati]
 
 
