@@ -247,7 +247,7 @@ def parse_args(args=None):
     parser.add_argument('--lfs',
                         action='store_true',
                         dest='lfs_clone',
-                        help='clone LFS repositories (requires Git LFS to be installed, http://git-lfs.github.com) [*]')
+                        help='clone LFS repositories (requires Git LFS to be installed, git-lfs.github.com) [*]')
     parser.add_argument('--wikis',
                         action='store_true',
                         dest='include_wiki',
@@ -391,12 +391,16 @@ def get_auth(args, encode=True, for_git_cli=False):
 
 
 def get_github_api_host(args):
-    host = args.gitea_host + '/api/v1'
-    return host
+    host = args.gitea_host
+    if not host.startswith('http://') and not host.startswith('https://'):
+        host = 'http://' + host
+    return host + '/api/v1'
 
 
 def get_github_host(args):
     host = args.gitea_host
+    if not host.startswith('http://') and not host.startswith('https://'):
+        host = 'http://' + host
     return host
 
 
@@ -415,7 +419,7 @@ def get_github_repo_url(args, repository):
 
     auth = get_auth(args, encode=False, for_git_cli=True)
     if auth:
-        repo_url = 'http://{0}@{1}/{2}/{3}.git'.format(
+        repo_url = '{0}@{1}/{2}/{3}.git'.format(
             auth,
             get_github_host(args),
             repository['owner']['login'],
@@ -656,7 +660,7 @@ def download_file(url, path, auth):
 
 
 def get_authenticated_user(args):
-    template = 'http://{0}/user'.format(get_github_api_host(args))
+    template = '{0}/user'.format(get_github_api_host(args))
     data = retrieve_data(args, template, single_request=True)
     return data[0]
 
@@ -664,7 +668,7 @@ def get_authenticated_user(args):
 def check_git_lfs_install():
     exit_code = subprocess.call(['git', 'lfs', 'version'])
     if exit_code != 0:
-        raise Exception('The argument --lfs requires you to have Git LFS installed.\nYou can get it from http://git-lfs.github.com.')
+        raise Exception('The argument --lfs requires you to have Git LFS installed.\nYou can get it from https://git-lfs.github.com.')
 
 
 def retrieve_repositories(args, authenticated_user):
@@ -672,23 +676,23 @@ def retrieve_repositories(args, authenticated_user):
     single_request = False
     if args.user == authenticated_user['login']:
         # we must use the /user/repos API to be able to access private repos
-        template = 'http://{0}/user/repos'.format(
+        template = '{0}/user/repos'.format(
             get_github_api_host(args))
     else:
         if args.private and not args.organization:
             log_warning('Authenticated user is different from user being backed up, thus private repositories cannot be accessed')
-        template = 'http://{0}/users/{1}/repos'.format(
+        template = '{0}/users/{1}/repos'.format(
             get_github_api_host(args),
             args.user)
 
     if args.organization:
-        template = 'http://{0}/orgs/{1}/repos'.format(
+        template = '{0}/orgs/{1}/repos'.format(
             get_github_api_host(args),
             args.user)
 
     if args.repository:
         single_request = True
-        template = 'http://{0}/repos/{1}/{2}'.format(
+        template = '{0}/repos/{1}/{2}'.format(
             get_github_api_host(args),
             args.user,
             args.repository)
@@ -696,7 +700,7 @@ def retrieve_repositories(args, authenticated_user):
     repos = retrieve_data(args, template, single_request=single_request)
 
     if args.all_starred:
-        starred_template = 'http://{0}/users/{1}/starred'.format(get_github_api_host(args), args.user)
+        starred_template = '{0}/users/{1}/starred'.format(get_github_api_host(args), args.user)
         starred_repos = retrieve_data(args, starred_template, single_request=False)
         # flag each repo as starred for downstream processing
         for item in starred_repos:
@@ -704,7 +708,7 @@ def retrieve_repositories(args, authenticated_user):
         repos.extend(starred_repos)
 
     if args.include_gists:
-        gists_template = 'http://{0}/users/{1}/gists'.format(get_github_api_host(args), args.user)
+        gists_template = '{0}/users/{1}/gists'.format(get_github_api_host(args), args.user)
         gists = retrieve_data(args, gists_template, single_request=False)
         # flag each repo as a gist for downstream processing
         for item in gists:
@@ -712,7 +716,7 @@ def retrieve_repositories(args, authenticated_user):
         repos.extend(gists)
 
     if args.include_starred_gists:
-        starred_gists_template = 'http://{0}/gists/starred'.format(get_github_api_host(args))
+        starred_gists_template = '{0}/gists/starred'.format(get_github_api_host(args))
         starred_gists = retrieve_data(args, starred_gists_template, single_request=False)
         # flag each repo as a starred gist for downstream processing
         for item in starred_gists:
@@ -758,7 +762,7 @@ def filter_repositories(args, unfiltered_repositories):
 
 def backup_repositories(args, output_directory, repositories):
     log_info('Backing up repositories')
-    repos_template = 'http://{0}/repos'.format(get_github_api_host(args))
+    repos_template = '{0}/repos'.format(get_github_api_host(args))
 
     if args.incremental:
         last_update = max(list(repository['updated_at'] for repository in repositories) or [time.strftime('%Y-%m-%dT%H:%M:%SZ', time.localtime())])  # noqa
@@ -1142,7 +1146,7 @@ def backup_account(args, output_directory):
 
     if args.include_starred or args.include_everything:
         output_file = "{0}/starred.json".format(account_cwd)
-        template = "http://{0}/users/{1}/starred".format(get_github_api_host(args), args.user)
+        template = "{0}/users/{1}/starred".format(get_github_api_host(args), args.user)
         _backup_data(args,
                      "starred repositories",
                      template,
@@ -1151,7 +1155,7 @@ def backup_account(args, output_directory):
 
     if args.include_watched or args.include_everything:
         output_file = "{0}/watched.json".format(account_cwd)
-        template = "http://{0}/users/{1}/subscriptions".format(get_github_api_host(args), args.user)
+        template = "{0}/users/{1}/subscriptions".format(get_github_api_host(args), args.user)
         _backup_data(args,
                      "watched repositories",
                      template,
@@ -1160,7 +1164,7 @@ def backup_account(args, output_directory):
 
     if args.include_followers or args.include_everything:
         output_file = "{0}/followers.json".format(account_cwd)
-        template = "http://{0}/users/{1}/followers".format(get_github_api_host(args), args.user)
+        template = "{0}/users/{1}/followers".format(get_github_api_host(args), args.user)
         _backup_data(args,
                      "followers",
                      template,
@@ -1169,7 +1173,7 @@ def backup_account(args, output_directory):
 
     if args.include_following or args.include_everything:
         output_file = "{0}/following.json".format(account_cwd)
-        template = "http://{0}/users/{1}/following".format(get_github_api_host(args), args.user)
+        template = "{0}/users/{1}/following".format(get_github_api_host(args), args.user)
         _backup_data(args,
                      "following",
                      template,
