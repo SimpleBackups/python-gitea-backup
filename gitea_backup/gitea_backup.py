@@ -123,7 +123,6 @@ def mkdir_p(*args):
 
 
 def mask_password(url, secret='*****'):
-    return url
     parsed = urlparse(url)
 
     if not parsed.password:
@@ -591,6 +590,8 @@ def _request_http_error(exc, auth, errors):
         delta = max(10, reset - gm_now)
 
         limit = headers.get('x-ratelimit-limit')
+        if limit is None:
+            limit = 'unknown'
         log_warning('Exceeded rate limit of {} requests; waiting {} seconds to reset'.format(limit, delta))  # noqa
 
         if auth is None:
