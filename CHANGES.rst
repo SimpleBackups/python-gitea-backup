@@ -1,9 +1,10 @@
 Changelog
 =========
 
-2.3.0 (2024-08-15)
+2.3.1 (2024-08-15)
 ------------------
-------------
+------------------
+- Release version 2.3.0. [Nour Sofanati]
 - Release version 2.2.0. [Nour Sofanati]
 
 

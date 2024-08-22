@@ -419,9 +419,8 @@ def get_github_repo_url(args, repository):
 
     auth = get_auth(args, encode=False, for_git_cli=True)
     if auth:
-        repo_url = '{0}@{1}/{2}/{3}.git'.format(
-            auth,
-            get_github_host(args),
+        repo_url = '{0}/{1}/{2}.git'.format(
+            re.sub(r'^http[s]?:\/\/', r'\g<0>' + auth + '@', get_github_host(args)),
             repository['owner']['login'],
             repository['name'])
     else:
