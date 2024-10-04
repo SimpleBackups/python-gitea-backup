@@ -37,6 +37,16 @@ except ImportError:
 
 FNULL = open(os.devnull, 'w')
 
+stats={
+    "issues":0,
+    "pulls":0,
+    "repositories":0,
+    "wikis":0,
+    "gists":0,
+    "releases":0,
+    "assets":0,
+}
+
 
 def _get_log_date():
     return datetime.datetime.isoformat(datetime.datetime.now())
@@ -791,6 +801,7 @@ def backup_repositories(args, output_directory, repositories):
         if (args.include_repository or args.include_everything) \
                 or (include_gists and repository.get('is_gist')):
             repo_name = repository.get('name') if not repository.get('is_gist') else repository.get('id')
+            stats["repositories"]+= 1 if not repository.get('is_gist') else 0
             fetch_repository(repo_name,
                              repo_url,
                              repo_dir,
@@ -803,6 +814,7 @@ def backup_repositories(args, output_directory, repositories):
                 # dump gist information to a file as well
                 output_file = '{0}/gist.json'.format(repo_cwd)
                 with codecs.open(output_file, 'w', encoding='utf-8') as f:
+                    stats["gists"]+=1
                     json_dump(repository, f)
 
                 continue  # don't try to back anything else for a gist; it doesn't exist
@@ -895,6 +907,7 @@ def backup_issues(args, repo_cwd, repository, repos_template):
 
         issue_file = '{0}/{1}.json'.format(issue_cwd, number)
         with codecs.open(issue_file, 'w', encoding='utf-8') as f:
+            stats["issues"]+=1
             json_dump(issue, f)
 
 
@@ -970,6 +983,7 @@ def backup_pulls(args, repo_cwd, repository, repos_template):
 
         pull_file = '{0}/{1}.json'.format(pulls_cwd, number)
         with codecs.open(pull_file, 'w', encoding='utf-8') as f:
+            stats["pulls"]+=1
             json_dump(pull, f)
 
 
@@ -1062,6 +1076,7 @@ def backup_releases(args, repo_cwd, repository, repos_template, include_assets=F
                 release_assets_cwd = os.path.join(release_cwd, release_name_safe)
                 mkdir_p(release_assets_cwd)
                 for asset in assets:
+                    stats["assets"]+=1
                     download_file(asset['url'], os.path.join(release_assets_cwd, asset['name']), get_auth(args))
 
 
@@ -1180,6 +1195,9 @@ def backup_account(args, output_directory):
                      output_file,
                      account_cwd)
 
+    print(f"[START-DELIMITER]")
+    print(json.dumps(stats))
+    print(f"[END-DELIMITER]")
 
 def _backup_data(args, name, template, output_file, output_directory):
     skip_existing = args.skip_existing
