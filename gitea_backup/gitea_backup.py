@@ -56,6 +56,49 @@ tree={
     "project_snippets": [],
 }
 
+
+def get_gitea_repo_data(http_url: str, access_token: str):
+    # Translate HTTP URL to API URL
+    # Example HTTP URL: https://gitea.com/mostafaelhabrok/Anime-template.git
+    # Translate to: https://gitea.com/api/v1/repos/mostafaelhabrok/Anime-template
+    http_url_parts = http_url.split("/")[-2:]  # Get the owner and repo name
+    api_url = f"https://gitea.com/api/v1/repos/{http_url_parts[0]}/{http_url_parts[1].replace('.git', '')}"
+
+    # Set the headers for authentication
+    headers = {
+        'Authorization': f'token {access_token}',
+        'Accept': 'application/json'
+    }
+
+    # Make the request to the Gitea API
+    response = requests.get(api_url, headers=headers)
+
+    # Check if the request was successful
+    if response.status_code == 200:
+        repo = response.json()
+        
+        # Format the repository data as requested
+        repo_data = {
+            "id": repo.get("id"),
+            "name": repo.get("name"),
+            "namespace": repo.get("owner", {}).get("username"),  # Gitea uses 'username' for owner
+            "path": repo.get("full_name"),
+            "created_at": repo.get("created_at"),
+            "default_branch": repo.get("default_branch"),
+            "ssh_url": repo.get("ssh_url"),
+            "http_url": repo.get("clone_url"),
+            "web_url": repo.get("html_url"),
+            "last_activity": repo.get("updated_at"),
+            "visibility": repo.get("private", False) and "private" or "public",  # Gitea uses boolean for visibility
+            "forks_count": repo.get("forks_count"),
+            "star_count": repo.get("stars_count"),
+        }
+        return repo_data
+    else:
+        # Handle error case if the request was unsuccessful
+        return {"error": f"Failed to retrieve data, status code: {response.status_code}"}
+
+
 def _get_log_date():
     return datetime.datetime.isoformat(datetime.datetime.now())
 
@@ -744,6 +787,23 @@ def retrieve_repositories(args, authenticated_user):
 
     return repos
 
+def repo_to_tree(repo):
+    repo_data = {
+            "id": repo.get("id"),
+            "name": repo.get("name"),
+            "namespace": repo.get("owner", {}).get("username"),  # Gitea uses 'username' for owner
+            "path": repo.get("full_name"),
+            "created_at": repo.get("created_at"),
+            "default_branch": repo.get("default_branch"),
+            "ssh_url": repo.get("ssh_url"),
+            "http_url": repo.get("clone_url"),
+            "web_url": repo.get("html_url"),
+            "last_activity": repo.get("updated_at"),
+            "visibility": repo.get("private", False) and "private" or "public",  # Gitea uses boolean for visibility
+            "forks_count": repo.get("forks_count"),
+            "star_count": repo.get("stars_count"),
+        }
+    return repo_data
 
 def filter_repositories(args, unfiltered_repositories):
     log_info('Filtering repositories')
@@ -774,7 +834,7 @@ def filter_repositories(args, unfiltered_repositories):
         repositories = [r for r in repositories if not r.get('archived')]
     if args.exclude:
         repositories = [r for r in repositories if r['name'] not in args.exclude]
-
+    tree['repositories']=[repo_to_tree(r) for r in repositories]
     return repositories
 
 
