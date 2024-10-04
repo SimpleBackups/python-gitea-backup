@@ -19,6 +19,8 @@ import sys
 import logging
 import time
 import platform
+import io
+import gzip
 from urllib.parse import urlparse
 from urllib.parse import quote as urlquote
 from urllib.parse import urlencode
@@ -47,6 +49,12 @@ stats={
     "assets":0,
 }
 
+tree={
+    "repositories": [],
+    "merge_requests": [],
+    "personal_snippets": [],
+    "project_snippets": [],
+}
 
 def _get_log_date():
     return datetime.datetime.isoformat(datetime.datetime.now())
@@ -1194,7 +1202,12 @@ def backup_account(args, output_directory):
                      template,
                      output_file,
                      account_cwd)
-
+    
+    t=io.BytesIO()
+    with gzip.GzipFile(fileobj=t, mode='w') as gz_file:
+        gz_file.write((json.dumps(tree)).encode('utf-8'))
+    stats['tree_gz']=base64.b64encode(t.getvalue()).decode('utf-8')
+    
     print(f"[START-DELIMITER]")
     print(json.dumps(stats))
     print(f"[END-DELIMITER]")
